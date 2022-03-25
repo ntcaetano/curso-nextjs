@@ -1,0 +1,291 @@
+- Os arquivos "pages" devem ser nomeados em letras minusculas para facilitar o acesso web.
+
+- O React por padrão não aceita uso de referêcias como <h1> ou <p> inseridas diretamente no código, deve-se colocar entre uma <div> ou utilziar o <React.fragment> importanto ele da biblioteca.
+
+- O "../" serve para apontar duas pastas de acima quando se vai importar ou direcionar um elemento, se colocar "../../" vai apontar quatro e assim por diante.
+
+- atributo passado como parâmetro --> props(padrão) = propriedades... pode ser x, y, qualquer coisa mas por padrão de desenvolvedores é "props".
+
+Modo padrão JS (components):
+
+
+ return props.pequeno ? (
+            <>
+                <p>{props.principal}</p>
+                <p>{props.secundario}</p>
+            </>
+        ) : (
+            <>
+                <h1>{props.principal}</h1>
+                <h2>{props.secundario}</h2>
+            </>
+        )
+    }
+
+Modo padrão simplificado netx.js (components):
+
+
+    return props.pequeno ? (
+            <>
+                <p>{props.principal}</p>
+                <p>{props.secundario}</p>
+            </>
+        ) : (
+            <>
+                <h1>{props.principal}</h1>
+                <h2>{props.secundario}</h2>
+            </>
+        )
+    }
+
+* O "?" é como se fosse um IF e o ":" um ELSE.
+
+Na página fica (basicos):
+
+import Titulo from "../../components/Titulo";
+
+ 
+ export default function usandoTitulo() {
+     return(
+         <div>
+           <Titulo
+                principal="Página de Cadastro"
+                secundario="Incluir, alterar e excluir coisas!"
+           />
+
+            <Titulo
+                principal="Página de Login"
+                secundario="Informe seu email e senha"
+                pequeno={true}
+           />
+         </div>
+     )
+ }
+
+
+
+Htmtl:
+- Atalho para criar div com classe "div.elemento" "div.x" "div.vermelho".
+
+Css:
+- O css modules (nomedoarquivo.module.css) é um tipo de arquivo novo de css para chamar as classes por referência integrada sem conflitos(exemplo):
+ 
+Css padrão:
+
+ <div className="vermelha">Texto #01</div>
+
+Css module:
+
+ <div className={styles.vermelha}>Texto #01</div>
+
+- Basicamente o Css modules serve para otimizar o código de forma que evita conflitos e globalidades entre os estilos definindo-os localmente, só serão declarados dentro do escopo.
+
+
+- A função props só retorna leitura não pode atribuir valores para variáveis somente ler.
+
+- "props.children" serve para passar os elementos que foram colocados dentro de outra função herdando seus componentes, exemplo:
+
+(sessão com componentes filhos)
+
+import "componente" from "arquivo"
+
+
+função{
+	retorno(
+		<componente>
+			<x/>
+			<y/>
+			<z/>	
+		</componente>	
+	)
+}
+
+/------------------------/
+
+(sessão que herda componentes)
+
+função(props){
+	retorno(
+		<>
+		   {props.children}	
+		</>	
+	)
+}
+
+
+
+- "{...props}" paga todas as propridades de um componente.
+- No JS não há problemas em criar uma função dentro de outra.
+- O "useState" no react é uma nova representação do "this.state" que preserva o uso das váriaves no react sem precisar chamar elas todo vez que for usá-las nas chamadas da função. "UseState()" retorna dois valores exemplo:
+
+Jsx:
+
+import React, { useState } from 'react';
+
+function Example() {
+
+const [count, setCount] = useState(0);
+
+* No caso os dois valores são "count"(locação de contagem) e "setCount"(retorna o valor para o contador). Como a váriavel está recebendo "0" como parâmetro toda vez que for re-renderizada o React vai considerar o ultimo valor que ela recebeu e irá considerar como valor atual (no caso do exemplo é um contator que pode servir para contar quantas vezes o usuário clicou, então precisa manter esse valor atual).
+
+
+- Quando se cria uma função dentro de uma classe (class) chamamos de "método" exemplo:
+
+Jsx:
+
+import { Component } from "react";
+
+export default class Contador extends Component{
+
+    render() {
+         *Aqui serão as condições do método para renderizar ou "passar" as informações para a tela.
+    }
+}
+
+
+
+- Dentro de uma arrow function "() => {(y = this.x)}" o "this" sempre ira apontar para o objeto atual, exemplo:
+
+Jsx:
+
+ inc = () => { 
+        this.setState({
+            numero: this.state.numero + 1
+	
+        })
+    }
+
+*inc () => {objeto}
+
+- A função Arrow é um tipo de função simplificada onde existe um parâmetro(lado esquerdo) que irá receber uma função(lado direito):
+
+- JS:
+
+const sayHelloWorld3 = () => 'Hello World!'
+const getData = () => ({name: 'Steve', lastName: 'Jobs'})  
+
+- JSX:
+
+function renderizarUsuarios() {
+        return usuarios.map((usuario, i) => {
+            return <li key={i}>{usuario.nome} tem {usuario.idade} anos</li>
+        })
+}
+ 
+- O método ".map()" chama a função 'callback' recebida por parâmetro para cada elemento do Array original, em ordem, e constrói um novo array com base nos retornos de cada chamada. A função callback é chamada com três argumentos: o valor do elemento corrente, o índice do elemento corrente e o array original que está sendo percorrido. O método ".map()" não modifica o array original. No entanto, a função callback invocada por ele pode fazê-lo. No caso do exemplo acima a função "renderizarUsuarios" retorna atráves do "map" no 'callback' os usuários pelos seus valores "nome" e "idade" no formato lista "<li>".
+
+
+//---API---//
+
+
+- O Fetch API busca dados do JS para converte-los em JSON pelo método "JSON.stringify", recebendo como parâmetro o endpoint e retorna uma Promise.
+
+
+JS:
+
+function getUser(userId) {
+ const userData = fetch(`https://api.com/api/user/${userId}`)
+   .then(response => response.json())
+   .then(data => console.log(data.name))
+}
+
+getUser(1);
+
+
+- Promises têm um método chamado ".then()", que recebe uma função callback e retorna um "objeto-promessa". Não é um retorno dos dados, é a promessa do retorno destes dados.
+ 
+
+JSX:
+
+    async function salvarUsuario() {
+        await fetch('/api/form', {
+            method: 'POST',
+            body: JSON.stringify({ nome, idade})
+        })
+
+        setNome("")
+        setIdade(0)
+
+        const resp = await fetch('/api/form')
+        const usuarios = await resp.json()
+        setUsuarios(usuarios)
+    }
+.
+.
+.
+<button onClick={salvarUsuario} >Enviar</button>
+.
+.
+
+- As sintaxes "async" e "await" definem que o código trabalhará de forma assíncrona mas será lido de forma sincrona. 
+
+- O "async" pode ser escrito antes de uma expressão para retornar uma promisse. Dessa forma, a execução da função externa (a função async) será pausada até que a Promise seja resolvida.
+
+- O "await" recebe uma Promise e a transforma em um valor de retorno (ou lança uma exceção em caso de erro). Quando utilizamos await, o JavaScript vai aguardar até que a Promise finalize. Se for finalizada com sucesso (o termo utilizado é fulfilled), o valor obtido é retornado. Se a Promise for rejeitada (o termo utilizado é rejected), é retornado o erro lançado pela exceção.
+
+- No caso do exemplo acima, a função irá salvar o usuário logo após enviar os dados pelo método "POST" convertendo os dados correspondentes em JSON.
+
+- Para selecionar duas ou mais classes em uma mesma div se usa-se crases ``, exemplo:
+
+JSX:
+
+ export default function Porta(props) {
+    const selecionada = props.selecionada ? styles.selecionada : ''
+
+    return (
+        <div className={styles.area}>
+            <div className={`${styles.estrutura} ${selecionada}`}>
+                <div className={styles.porta}>
+                    <div className={styles.numero}>3</div>
+                    <div className={styles.macaneta}></div>
+                </div>
+            </div>
+            <div className={styles.chao}></div>
+        </div>
+    )
+}
+
+- A classe pode ser chamada por um atributo caso esse atributo esteja recebendo uma classe.
+- No exemplo acima existe uma condição dentro da constante, para mostrar ou não o conteúdo da classe CSS "styles.selecionada", dependendo do que foi proposto no código da page irá mostrar o conteúdo ou simplesmente receber a classe vazia " styles.classe: '' ".
+
+- Se uma váriavel tem um "#" na frente quer dizer que ela é do tipo privado, exemplo:
+
+JS:
+
+class Pessoa {
+	#nome
+
+	constructor(nome) {
+		this.#nome = nome
+	}
+	
+	set nome(nome) {
+		this.#nome = nome
+	}
+
+	get nome() {
+		return this.#nome
+	}
+}
+
+const p1 = new Pessoa("Pedro")
+p1.nome = "Ana"
+console.log(p1.nome)
+
+- Em uma classe com um atributo privado o valor só poderá ser acessado ou alternado através de métodos.
+- No caso do exemplo acima a variável p1 ao invés de referênciar o atributo pelo método "getNome" padrão, pegou a referência diretamente do atributo "nome" por ele mesmo. Para mudar o valor do atributo "Pedro" que foi definido para "Pessoa" uma método set foi criado referênciando "this." o atributo privado "#nome" setando ele no atributo público "nome" que pode ser usado livremente.
+
+- O hook "UseEffect()" do react serve para causar efeitos colaterais por chamadas na renderização do componente:
+
+JSX/TSX:
+
+
+  useEffect(() =>{
+    carregarIdsDasQuestoes()
+  }, [])
+
+
+- No caso acima a função de carregar os Id's das questões será chamada toda a vez que o site inicializar, porque as dependências "[]" estão vazias, elas que definem quando a chamada dentro do useEffect ativará.
+
+
+
